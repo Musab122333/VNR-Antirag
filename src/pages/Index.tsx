@@ -7,22 +7,25 @@ const Index = () => {
   return (
     <div className="min-h-[calc(100vh-8rem)]">
       <Helmet>
-        <title>Home | VNR AntiRag — Report Ragging Safely</title>
+        <title>Home|VNR AntiRag — Report Ragging Safely</title>
         <meta name="description" content="Welcome to VNR AntiRag. Quickly report ragging, view your complaints, or contact the committee." />
         <link rel="canonical" href="/" />
+        <link rel="icon" type="image/png" href="/assets/VNRLOGO.png" />
       </Helmet>
 
       <section className="relative">
-        <img
-          src={heroImage}
-          alt="VNR Anti Ragging safety banner with abstract campus and shield icon"
-          loading="lazy"
-          className="w-full h-56 object-cover"
+        <video
+          src="https://vnrvjiet.ac.in/assets/images/Website%20Hero%20Video.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-60 object-cover"
         />
         <div className="container relative -mt-10">
           <div className="rounded-xl border bg-card p-6 shadow-sm">
             <h1 className="text-2xl font-bold inline-flex items-center gap-2">
-              <ShieldCheck className="h-6 w-6 text-primary" />
+              <img src="/assets/VNRLOGO.png" alt="" className="h-8 w-8" />
               VNR Anti Ragging Committee
             </h1>
             <p className="mt-2 text-muted-foreground">

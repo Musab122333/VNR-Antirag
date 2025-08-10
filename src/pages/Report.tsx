@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { db } from "@/firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 const LOCATIONS = [
   "Annapurna Canteen",
@@ -50,7 +52,7 @@ const Report = () => {
       toast.error("Please fill all required fields");
       return;
     }
-    const local = addComplaint({
+    const reportData = {
       location,
       type: issueType,
       name,
@@ -60,22 +62,15 @@ const Report = () => {
       description,
       knowsPerson: knows,
       privacy,
-    });
-    // Attempt remote write in background; do not block UX
-    addComplaintRemote({
-      location,
-      type: issueType,
-      name,
-      rollNumber: roll,
-      email,
-      mobile,
-      description,
-      knowsPerson: knows,
-      privacy,
-    }).catch(() => {/* ignore */});
-    toast.success("Complaint submitted successfully");
-    navigate("/my");
-    return local;
+      submittedAt: new Date().toISOString(),
+    };
+    try {
+      await addDoc(collection(db, "reports"), reportData); // <-- Save to Firestore
+      toast.success("Complaint submitted successfully");
+      navigate("/my");
+    } catch (error) {
+      toast.error("Failed to submit complaint. Please try again.");
+    }
   };
 
   return (

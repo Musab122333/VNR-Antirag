@@ -12,10 +12,9 @@ const MainLayout = () => {
       <header className="sticky top-0 z-40 border-b bg-white/70 dark:bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-white/60">
         <div className="container flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="VNR Anti Ragging logo" className="h-8 w-8" loading="eager" />
-            <span className="inline-flex items-center gap-2 font-semibold">
-              <ShieldCheck className="h-5 w-5 text-primary" />
-              Anti Ragging Committee
+            <img src="/assets/VNRLOGO.png" alt="VNR Anti Ragging logo" className="h-8 w-8" loading="eager" />
+            <span className="inline-flex items-center gap-2 font-semibold"> 
+             VNR Anti Ragging Committee
             </span>
           </Link>
           <NavLink to="/profile" className="inline-flex items-center justify-center h-9 w-9 rounded-full border hover:bg-secondary transition-[background]" aria-label="Profile">
