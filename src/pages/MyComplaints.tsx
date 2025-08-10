@@ -35,7 +35,7 @@ const MyComplaints = () => {
       <h1 className="text-2xl font-bold">My Complaints</h1>
 
       {complaints.length === 0 ? (
-        <p className="mt-4 text-muted-foreground">No complaints yet. You can file a new report from the Report tab.</p>
+        <p className="mt-4 text-muted-foreground">Your complaint Have been recieved. Action will be taken Immediately.</p>
       ) : (
         <ul className="mt-4 space-y-3">
           {complaints.map((c) => (

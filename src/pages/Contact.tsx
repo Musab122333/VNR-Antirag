@@ -3,8 +3,8 @@ import { Phone, Mail } from "lucide-react";
 
 const Contact = () => {
   const contact = {
-    name: "Anti Ragging Committee, VNRVJIET",
-    phone: "+91 98765 43210",
+    name: "Dr.M.Sreedhar, Anti Ragging Committee-Chairman, VNRVJIET",
+    phone: "+91 8106630486",
     email: "antirag@vnrvjiet.ac.in",
   };
 

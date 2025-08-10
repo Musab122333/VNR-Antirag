@@ -11,16 +11,26 @@ import { db } from "@/firebase";
 import { collection, addDoc } from "firebase/firestore";
 
 const LOCATIONS = [
-  "Annapurna Canteen",
-  "C Block",
-  "B Block",
   "A Block",
+  "B Block",
+  "C Block",
+  "D Block",
+  "E Block",
+  "PEB Block",
   "JSK Greens",
+  "Library",
+  "Sports Complex",
+  "Main Gate", 
+  "Parking Area-Bike",
+  "Parking Area-Car",
   "Girls Hostel",
   "Boys Hostel",
+  "Annapurna Canteen",
+  "Food Court",
+  "Other", // <-- Add this line
 ];
 
-const TYPES = ["Bullying", "Harassing", "Underrated Harassment"];
+const TYPES = ["Bullying", "Harassing", "Underrated Harassment", "Other"]; // Add "Other"
 
 type Step = 1 | 2 | 3;
 
@@ -35,6 +45,8 @@ const Report = () => {
   const [description, setDescription] = useState("");
   const [knows, setKnows] = useState(false);
   const [privacy, setPrivacy] = useState<"Private" | "Anonymous">("Private");
+  const [customLocation, setCustomLocation] = useState(""); // Add this state
+  const [customType, setCustomType] = useState(""); // Add this state
   const navigate = useNavigate();
 
   const next = () => setStep((s) => (s < 3 ? ((s + 1) as Step) : s));
@@ -53,8 +65,8 @@ const Report = () => {
       return;
     }
     const reportData = {
-      location,
-      type: issueType,
+      location: location === "Other" ? customLocation : location,
+      type: issueType === "Other" ? customType : issueType, // Use customType if "Other"
       name,
       rollNumber: roll,
       email,
@@ -63,9 +75,11 @@ const Report = () => {
       knowsPerson: knows,
       privacy,
       submittedAt: new Date().toISOString(),
+      status: "Pending",
+      createdAt: Date.now(),
     };
     try {
-      await addDoc(collection(db, "reports"), reportData); // <-- Save to Firestore
+      await addDoc(collection(db, "reports"), reportData);
       toast.success("Complaint submitted successfully");
       navigate("/my");
     } catch (error) {
@@ -106,6 +120,17 @@ const Report = () => {
                 </button>
               ))}
             </div>
+            {location === "Other" && (
+              <div className="mt-3">
+                <Label htmlFor="customLocation">Please specify:</Label>
+                <Input
+                  id="customLocation"
+                  value={customLocation}
+                  onChange={(e) => setCustomLocation(e.target.value)}
+                  required
+                />
+              </div>
+            )}
           </div>
         )}
 
@@ -124,6 +149,17 @@ const Report = () => {
                 </button>
               ))}
             </div>
+            {issueType === "Other" && (
+              <div className="mt-3">
+                <Label htmlFor="customType">Please specify:</Label>
+                <Input
+                  id="customType"
+                  value={customType}
+                  onChange={(e) => setCustomType(e.target.value)}
+                  required
+                />
+              </div>
+            )}
           </div>
         )}
 
