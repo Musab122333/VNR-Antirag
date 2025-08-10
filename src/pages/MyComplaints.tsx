@@ -2,6 +2,9 @@ import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { getComplaintsByUser, getComplaintsByUserRemote, Complaint } from "@/state/complaints";
 import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
+import { db } from "@/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const StatusBadge = ({ status }: { status: Complaint["status"] }) => {
   const color = status === "Resolved" ? "bg-green-100 text-green-800" : status === "Reviewed" ? "bg-amber-100 text-amber-800" : "bg-blue-100 text-blue-800";
@@ -9,10 +12,17 @@ const StatusBadge = ({ status }: { status: Complaint["status"] }) => {
 };
 
 const MyComplaints = () => {
-  const { data: items = getComplaintsByUser(), isLoading } = useQuery({
-    queryKey: ["complaints", "me"],
-    queryFn: () => getComplaintsByUserRemote(),
-  });
+  const [complaints, setComplaints] = useState([]);
+  const userEmail = "user@email.com"; // Replace with logged-in user's email
+
+  useEffect(() => {
+    async function fetchComplaints() {
+      const q = query(collection(db, "reports"), where("email", "==", userEmail));
+      const snapshot = await getDocs(q);
+      setComplaints(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    }
+    fetchComplaints();
+  }, []);
 
   return (
     <div className="container py-6">
@@ -24,13 +34,11 @@ const MyComplaints = () => {
 
       <h1 className="text-2xl font-bold">My Complaints</h1>
 
-      {isLoading ? (
-        <p className="mt-4 text-muted-foreground">Loading complaints...</p>
-      ) : items.length === 0 ? (
+      {complaints.length === 0 ? (
         <p className="mt-4 text-muted-foreground">No complaints yet. You can file a new report from the Report tab.</p>
       ) : (
         <ul className="mt-4 space-y-3">
-          {items.map((c) => (
+          {complaints.map((c) => (
             <li key={c.id} className="rounded-xl border p-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
