@@ -15,7 +15,7 @@ const Index = () => {
 
       <section className="relative">
         <video
-          src="https://vnrvjiet.ac.in/assets/images/Website%20Hero%20Video.mp4"
+          src="/assets/Hero-Video.mp4"
           autoPlay
           loop
           muted
